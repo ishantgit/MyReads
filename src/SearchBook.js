@@ -7,28 +7,26 @@ class SearchBook extends Component{
 
     state = {
         query: ''
-    }
+    };
 
     updateQuery = (query) => {
         this.setState({ query },() => {
             this.searchQuery(query);
         });
-    }
+    };
 
     updateState = (book_id,shelf) => {
-        var books = this.state.books;
-        books.filter(book => book.id === book_id).map(book => {
-            book.shelf = shelf;
-        });
+        let books = this.state.books;
+        books.filter(book => book.id === book_id).map(book => book.shelf = shelf);
         this.setState({books});
     };
 
     searchQuery = (query) => {
         BooksApi.search(query).then((books) =>{
-            console.log(books);
-           this.setState({books});
+            if(Array.isArray(books))
+                this.setState({books});
         });
-    }
+    };
 
     render() {
         const { query } = this.state;
@@ -54,7 +52,7 @@ class SearchBook extends Component{
             <div className="search-books-results">
                 <ol className="books-grid">
                     {
-                        this.state.books !== undefined ? this.state.books.map(book => {
+                        this.state.books !== undefined && this.state.books != null ? this.state.books.map(book => {
                             return <li key={book.id}>
                                 <BookItem book={book}  updateValue={(updatedShelf) => {
                                     this.updateState(book.id,updatedShelf);

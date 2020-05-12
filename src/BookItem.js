@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {update} from "./BooksAPI";
 
 export const BookItem = (props) => {
     return <div className="book">
         <div className="book-top">
-            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${props.book.imageLinks.thumbnail})` }}></div>
+            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${props.book.imageLinks.thumbnail})` }}/>
             <div className="book-shelf-changer">
                 <select value={props.book.shelf !== undefined ? props.book.shelf : "none"} onChange={(e) => {
                     let updatedShelf = e.target.value;
-                    update(props.book,updatedShelf).then((res)=>{
-                        console.log(res);
-                        props.updateValue(updatedShelf);
-                    })
+                    props.updateValue(updatedShelf);
+                    update(props.book,updatedShelf);
                 }}>
                     <option value="move" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
