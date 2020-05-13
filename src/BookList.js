@@ -1,32 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import * as BooksApi from './BooksAPI';
 import {BookItem} from "./BookItem";
 
 class BookList extends Component{
 
-    state = {
-
-    };
-
-    componentDidMount() {
-        BooksApi.getAll().then((books)=>{
-            this.setState({ books })
-        });
-    }
-
-    updateState = (book_id,shelf) => {
-      let books = this.state.books;
-      books.filter(book => book.id === book_id).map(book => book.shelf = shelf);
-      this.setState({books});
-    };
 
     render() {
+       let books = this.props.books;
        let renderBooks = (shelf) => {
-           return  this.state.books !== undefined && this.state.books != null ? this.state.books.filter(book=> book.shelf === shelf).map(book => {
+           return  books !== undefined && books != null ? books.filter(book=> book.shelf === shelf).map(book => {
                return <li key={book.id}>
                    <BookItem book={book} updateValue={(updatedShelf) => {
-                       this.updateState(book.id,updatedShelf);
+                       this.props.updateState(book.id,updatedShelf);
                    }}/>
                </li>
            }) : <div/>
